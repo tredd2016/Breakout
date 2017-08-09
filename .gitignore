@@ -1,0 +1,16 @@
+*.tlog
+MyGame.opensdf
+*.sln
+Debug/vc110.pdb
+*.sdf
+MyGame.vcxproj
+MyGame.vcxproj.filters
+*.suo
+Debug/vc110.idb
+Debug/MyGame.pdb
+*.obj
+Debug/MyGame.lastbuildstate
+*.log
+Debug/MyGame.ilk
+*.exe
+MyGame.vcxproj.user

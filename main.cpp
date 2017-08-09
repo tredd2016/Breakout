@@ -1,12 +1,18 @@
+#include "GameBoard.h"
 #include "Player.h"
+
 #include<iostream>
 
 using namespace std;
 
 int main(){
-	Player p(1);
+	Player p1(1,'X');
+	Player p2(2, 'O');
+	
+	GameBoard PlayingBoard(p1,p2);
 
-	cout << "Hello World" << endl;
+	PlayingBoard.printBoard();
+	//cout << "Hello World" << endl;
 	return 0;
 
 	
