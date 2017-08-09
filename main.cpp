@@ -11,8 +11,17 @@ int main(){
 	
 	GameBoard PlayingBoard(p1,p2);
 
+	//PlayingBoard.setActPlayer(p2);
+
 	PlayingBoard.printBoard();
-	//cout << "Hello World" << endl;
+	cout << endl;
+
+	Move s1(6,5,'f');
+	PlayingBoard.makeMove(s1);
+
+	PlayingBoard.printBoard();
+	cout << endl;
+
 	return 0;
 
 	

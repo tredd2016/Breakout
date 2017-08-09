@@ -6,6 +6,21 @@
 
 using namespace std;
 
+struct Tile{
+	int rowPosition;
+	int coulmPosition;
+
+	Tile(int r, int c) : rowPosition(r), coulmPosition(c) {}
+};
+
+struct Move{
+	int rowPosition;
+	int coulmPosition;
+	char direction; // f - forward , l - left, r - right
+
+	Move(int r, int c, char d) : rowPosition(r), coulmPosition(c), direction(d) {}
+};
+
 class GameBoard{
 
 private:
@@ -22,11 +37,15 @@ public:
 	//Member functions
 	void printBoard();
 	void initBoard();
+	
 	void setActPlayer(Player p);
-
 	Player getActPlayer(); // should be const? may cause problems later...
 
-
+	void setBoardPiece(int rowPos, int coulmPos, char playPiece);
+	Tile calcMove(Move m);
+	void makeMove(Move m);
+	bool isValidMove(Move m);
 };
+
 #endif
 
