@@ -3,6 +3,10 @@
 
 #include "Player.h"
 #include<iostream>
+#include<string>
+#include<sstream>
+#include<cctype>
+#include<regex>
 
 using namespace std;
 
@@ -45,6 +49,8 @@ public:
 	Tile calcMove(Move m);
 	void makeMove(Move m);
 	bool isValidMove(Move m);
+
+	void getMove();
 };
 
 #endif

@@ -13,14 +13,16 @@ int main(){
 
 	//PlayingBoard.setActPlayer(p2);
 
-	PlayingBoard.printBoard();
-	cout << endl;
+	//PlayingBoard.printBoard();
+	//cout << endl;
 
-	Move s1(6,5,'f');
-	PlayingBoard.makeMove(s1);
+	//Move s1(6,5,'f');
+	//PlayingBoard.makeMove(s1);
 
-	PlayingBoard.printBoard();
-	cout << endl;
+	//PlayingBoard.printBoard();
+	//cout << endl;
+
+	PlayingBoard.getMove();
 
 	return 0;
 

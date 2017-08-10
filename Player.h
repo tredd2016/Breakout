@@ -16,6 +16,7 @@ public:
 	//Member functions
 	int getPlayerNum() const;
 	char getPlayerPiece() const;
+	char getOppPiece();
 	
 	void setPlayerNum(int i);
 	void setPlayerPiece(char c);

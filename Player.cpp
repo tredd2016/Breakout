@@ -22,6 +22,12 @@ char Player::getPlayerPiece() const {
 	return playerPiece;
 }
 
+//Not super safe
+char Player::getOppPiece(){
+	if(playerPiece == 'X') return 'O';
+	else return 'X';
+}
+
 void Player::setPlayerNum(int i){
 	playerNum = i;
 }

@@ -86,6 +86,42 @@ void GameBoard::makeMove(Move m){
 
 
 bool GameBoard::isValidMove(Move m){
+	// Calc proposed move destination
+	Tile dest = calcMove(m);
 
-	return 1;
+	// Check if Player even has a piece at orgin
+	if(Board[m.rowPosition][m.coulmPosition] != activePlayer.getPlayerPiece()){
+		return false;
+	}
+	// Check if destination is in bounds
+	else if(dest.rowPosition > 7 || dest.rowPosition < 0 || dest.coulmPosition > 7 || dest.coulmPosition < 0){
+		return false;
+	}
+	// Check if move is attempting to jump opponents piece moving forward
+	else if(m.direction == 'f' && Board[dest.rowPosition][dest.coulmPosition] == activePlayer.getOppPiece()){
+		return false;
+	}
+	// Check if destination is occupied by that users piece already
+	else if(Board[dest.rowPosition][dest.coulmPosition] == activePlayer.getPlayerPiece()){
+		return false;
+	}
+}
+
+void GameBoard::getMove(){
+	string usrInput;
+	regex validRegex("([a-h]|[A-H])[1-8] [fFlLrR]");
+	bool valid = false;
+	char inRow, dir;
+	int inCoulm = 0;
+
+	cout << "Player " << activePlayer.getPlayerNum() << ": please enter a move" << endl;
+	while(1){
+		cout << "Move: ";
+		getline(cin, usrInput);
+		if(regex_match(usrInput, validRegex))
+			break;
+		cout << "Invalid move, please try again" << endl;
+	}
+
+	cout << "Valid move";	
 }
