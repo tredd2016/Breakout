@@ -6,6 +6,7 @@
 #include<string>
 #include<sstream>
 #include<cctype>
+#include<cmath>
 #include<regex>
 
 using namespace std;
@@ -50,7 +51,7 @@ public:
 	void makeMove(Move m);
 	bool isValidMove(Move m);
 
-	void getMove();
+	Move getMove();
 };
 
 #endif

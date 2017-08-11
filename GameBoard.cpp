@@ -21,16 +21,29 @@ void GameBoard::initBoard(){
 }
 
 
-void GameBoard::printBoard(){
-	cout << "   a b c d e f g h" << endl;
-	for(int i=0; i<8; ++i){
-		cout << 8-i << " |";
-		for(int j=0; j<8; ++j){
-			cout << Board[i][j] << "|";
+void GameBoard::printBoard(){	
+	// Player 1 Board View
+	if(activePlayer.getPlayerNum() == 1){
+		cout << "   a b c d e f g h" << endl;
+		for(int i=0; i<8; ++i){
+			cout << 8-i << " |";
+			for(int j=0; j<8; ++j){
+				cout << Board[i][j] << "|";
+			}
+			cout << endl;
 		}
-		cout << endl;
 	}
-	
+	// Player 2 Board View
+	else{
+		cout << "   h g f e d c b a" << endl;
+		for(int i=0; i<8; ++i){
+			cout << i+1 << " |";
+			for(int j=0; j<8; ++j){
+				cout << Board[7-i][7-j] << "|";
+			}
+			cout << endl;
+		}
+	}	
 }
 
 void GameBoard::setActPlayer(Player p){
@@ -84,7 +97,7 @@ void GameBoard::makeMove(Move m){
 	setBoardPiece(m.rowPosition, m.coulmPosition, '_');
 }
 
-
+//Not yet tested or proven comperhensive 
 bool GameBoard::isValidMove(Move m){
 	// Calc proposed move destination
 	Tile dest = calcMove(m);
@@ -105,9 +118,11 @@ bool GameBoard::isValidMove(Move m){
 	else if(Board[dest.rowPosition][dest.coulmPosition] == activePlayer.getPlayerPiece()){
 		return false;
 	}
+
+	else return true;
 }
 
-void GameBoard::getMove(){
+Move GameBoard::getMove(){
 	string usrInput;
 	regex validRegex("([a-h]|[A-H])[1-8] [fFlLrR]");
 	bool valid = false;
@@ -122,6 +137,18 @@ void GameBoard::getMove(){
 			break;
 		cout << "Invalid move, please try again" << endl;
 	}
+	// Convert Coulm to lowercase and subtract ascii value of 'a' to get integer representation
+	char coulmChar = tolower(usrInput[0]);
+	int coulmInt = coulmChar - 97;
+	
+	// Convert to int - Must adjust index from board to array
+	int rowInt = abs(8 - atoi(&usrInput[1]));	
 
-	cout << "Valid move";	
+	// Direction, convert to lower and leave as is
+	char dirChar = tolower(usrInput[3]);
+
+	//cout << rowInt << endl << coulmInt << endl << dirChar << endl;
+	Move rtnVal(rowInt, coulmInt, dirChar);
+	return rtnVal;
+	
 }

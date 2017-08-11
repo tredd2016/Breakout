@@ -13,7 +13,7 @@ int main(){
 
 	//PlayingBoard.setActPlayer(p2);
 
-	//PlayingBoard.printBoard();
+	PlayingBoard.printBoard();
 	//cout << endl;
 
 	//Move s1(6,5,'f');
@@ -22,8 +22,16 @@ int main(){
 	//PlayingBoard.printBoard();
 	//cout << endl;
 
-	PlayingBoard.getMove();
+	Move p1Move = PlayingBoard.getMove();
+	PlayingBoard.makeMove(p1Move);
+	PlayingBoard.printBoard();
+	PlayingBoard.setActPlayer(p2);
+	PlayingBoard.printBoard();
 
+	Move p2Move = PlayingBoard.getMove();
+	PlayingBoard.makeMove(p2Move);
+	PlayingBoard.setActPlayer(p1);
+	PlayingBoard.printBoard();
 	return 0;
 
 	
