@@ -5,7 +5,8 @@ GameBoard::GameBoard(){
 }
 
 GameBoard::GameBoard(Player p1, Player p2){
-	setActPlayer(p1);
+	activePlayer = p1;
+	passivePlayer = p2;
 	initBoard();
 }
 
@@ -54,6 +55,20 @@ Player GameBoard::getActPlayer(){
 	return activePlayer;
 }
 
+void GameBoard::setPassivePlayer(Player p){
+	passivePlayer = p;
+}
+
+Player GameBoard::getPassivePlayer(){
+	return passivePlayer;
+}
+
+void GameBoard::changeTurn(){
+	Player swap = activePlayer;
+	activePlayer = passivePlayer;
+	passivePlayer = swap;
+}
+
 void GameBoard::setBoardPiece(int rowPos, int coulmPos, char playPiece){
 	Board[rowPos][coulmPos] = playPiece;
 }
@@ -89,12 +104,21 @@ Tile GameBoard::calcMove(Move m){
 	return dest;
 }
 
-void GameBoard::makeMove(Move m){	
-	Tile dest = calcMove(m);	
-	// Make move
-	setBoardPiece(dest.rowPosition, dest.coulmPosition, activePlayer.getPlayerPiece());
-	//Replace old piece
-	setBoardPiece(m.rowPosition, m.coulmPosition, '_');
+void GameBoard::makeMove(){	
+	bool valid = false;
+	while(!valid){
+		Move m = getMove();	
+		if(isValidMove(m)){
+			Tile dest = calcMove(m);	
+			// Make move
+			setBoardPiece(dest.rowPosition, dest.coulmPosition, activePlayer.getPlayerPiece());
+			//Replace old piece
+			setBoardPiece(m.rowPosition, m.coulmPosition, '_');
+			valid = true;
+		}
+		else cout << "Invalid move, please try again.." << endl;
+		
+	}
 }
 
 //Not yet tested or proven comperhensive 
@@ -147,8 +171,27 @@ Move GameBoard::getMove(){
 	// Direction, convert to lower and leave as is
 	char dirChar = tolower(usrInput[3]);
 
-	//cout << rowInt << endl << coulmInt << endl << dirChar << endl;
 	Move rtnVal(rowInt, coulmInt, dirChar);
 	return rtnVal;
 	
+}
+
+// Should probably make player 1 and 2 members of gameboards to be able to reference their piece chars
+bool GameBoard::isGG(){
+	for(int i=0;i<8;++i){
+		if(Board[0][i] == 'X') return true;
+		if (Board[7][i] == 'O') return true;
+	}
+	return false;
+}
+
+void GameBoard::playGame(){
+	while(!isGG()){
+		//cout << "Player: " << activePlayer.getPlayerNum() << " Please enter a move" << endl;
+		printBoard();
+		makeMove();
+		changeTurn();
+	}
+	printBoard();
+	cout << "The game is over" << endl;
 }

@@ -30,7 +30,8 @@ class GameBoard{
 
 private:
 	char Board[8][8];
-	Player activePlayer;
+	// Try making these pointers?
+	Player activePlayer, passivePlayer;
 
 
 public:	
@@ -45,13 +46,19 @@ public:
 	
 	void setActPlayer(Player p);
 	Player getActPlayer(); // should be const? may cause problems later...
+	void setPassivePlayer(Player p);
+	Player getPassivePlayer();
+	void changeTurn();
+
 
 	void setBoardPiece(int rowPos, int coulmPos, char playPiece);
 	Tile calcMove(Move m);
-	void makeMove(Move m);
+	void makeMove();
 	bool isValidMove(Move m);
-
+	bool isGG();
 	Move getMove();
+
+	void playGame();
 };
 
 #endif
