@@ -11,6 +11,7 @@ GameBoard::GameBoard(Player p1, Player p2){
 }
 
 
+
 void GameBoard::initBoard(){
 	for(int i=0; i<8; ++i){
 		for(int j=0; j<8; ++j){
@@ -63,6 +64,7 @@ Player GameBoard::getPassivePlayer(){
 	return passivePlayer;
 }
 
+
 void GameBoard::changeTurn(){
 	Player swap = activePlayer;
 	activePlayer = passivePlayer;
@@ -74,7 +76,7 @@ void GameBoard::setBoardPiece(int rowPos, int coulmPos, char playPiece){
 }
 
 Tile GameBoard::calcMove(Move m){
-	int parity, newRow, newCoulm;
+	int parity, newRow, newCoulm = 0;
 
 	if(activePlayer.getPlayerNum() == 1){
 		parity = -1;
@@ -104,6 +106,14 @@ Tile GameBoard::calcMove(Move m){
 	return dest;
 }
 
+//Move assumed to be correct from AI player
+void GameBoard::makeMove(Move m){
+	Tile dest = calcMove(m);
+	setBoardPiece(dest.rowPosition, dest.coulmPosition, activePlayer.getPlayerPiece());
+	setBoardPiece(m.rowPosition, m.coulmPosition, '_');
+}
+
+//Make move from user input
 void GameBoard::makeMove(){	
 	bool valid = false;
 	while(!valid){
@@ -116,10 +126,14 @@ void GameBoard::makeMove(){
 			setBoardPiece(m.rowPosition, m.coulmPosition, '_');
 			valid = true;
 		}
-		else cout << "Invalid move, please try again.." << endl;
-		
+		else{
+			cout << endl << "Invalid move, please try again.." << endl;
+			printBoard();
+		}		
 	}
 }
+
+
 
 //Not yet tested or proven comperhensive 
 bool GameBoard::isValidMove(Move m){
@@ -159,7 +173,7 @@ Move GameBoard::getMove(){
 		getline(cin, usrInput);
 		if(regex_match(usrInput, validRegex))
 			break;
-		cout << "Invalid move, please try again" << endl;
+		cout << "Invalid input format, please try again" << endl;
 	}
 	// Convert Coulm to lowercase and subtract ascii value of 'a' to get integer representation
 	char coulmChar = tolower(usrInput[0]);
@@ -187,11 +201,52 @@ bool GameBoard::isGG(){
 
 void GameBoard::playGame(){
 	while(!isGG()){
-		//cout << "Player: " << activePlayer.getPlayerNum() << " Please enter a move" << endl;
+		cout << "------------------------------------" << endl;
 		printBoard();
-		makeMove();
+		if(activePlayer.isHumanPlayer()){
+			//cout << "Human about to move: "<< endl;
+			makeMove(); // need to fix this function naming scheme 
+		}
+		else{
+			//cout << "AI about to make a move" << endl;
+			AImakeMove();
+		}
 		changeTurn();
 	}
 	printBoard();
-	cout << "The game is over" << endl;
+	cout << "The game is over" << endl; // Print game winner here
+}
+
+//===================================================================================================================
+vector<Move> GameBoard::AIAllMoves(){
+	vector<Move> allMoves;
+
+	for(int i=0; i<8; ++i){
+		for(int j=0; j<8; ++j){
+			if(Board[i][j] == activePlayer.getPlayerPiece()){
+				//Try all possible moves (clean this up)
+				Move f(i,j,'f');
+				Move l(i,j,'l');
+				Move r(i,j,'r');
+				if(isValidMove(f)) allMoves.push_back(f);
+				if(isValidMove(l)) allMoves.push_back(l);
+				if(isValidMove(r)) allMoves.push_back(r);
+			}
+		}
+	}
+	cout << "Number of moves found: " << allMoves.size() << endl;
+	return allMoves;
+}
+
+void GameBoard::AImakeMove(){
+	vector<Move> allMoves = AIAllMoves();
+	//Pick a random move for now
+	random_device rd;  //Will be used to obtain a seed for the random number engine
+    mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
+    uniform_int_distribution<> dis(1, allMoves.size() - 1);
+	int r = dis(gen);
+	//cout << r << endl;
+
+	makeMove(allMoves[r]);
+	
 }

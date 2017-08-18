@@ -1,19 +1,5 @@
 #include "Player.h"
 
-Player::Player(){
-	// default constructor...do something here
-}
-
-Player::Player(int i, char c){
-	playerNum = i;
-	playerPiece = c;
-}
-
-Player::Player(const Player& p){
-	playerNum = p.playerNum;
-	playerPiece = p.playerPiece;
-}
-
 int Player::getPlayerNum() const {
 	return playerNum;
 }
@@ -34,4 +20,9 @@ void Player::setPlayerNum(int i){
 
 void Player::setPlayerPiece(char c){
 	playerPiece = c;
+}
+
+bool Player::isHumanPlayer(){
+	if(isHuman) return true;
+	else return false;
 }
