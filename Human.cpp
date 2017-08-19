@@ -16,3 +16,7 @@ Human::Human(const Human& h){
 	isHuman = h.isHuman;
 }
 
+// For testing purposes only
+Human::~Human(){
+	//cout << "Human object is being deleted" << endl;
+}

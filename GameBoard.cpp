@@ -10,7 +10,20 @@ GameBoard::GameBoard(Player p1, Player p2){
 	initBoard();
 }
 
-
+/*
+// Simply one perspecive for now (not functional)
+ostream& operator<<(ostream& os, const GameBoard& b){
+	os << "   a b c d e f g h" << endl;
+	for(int i=0; i<8; ++i){
+		os << 8-i << " |";
+		for(int j=0; j<8; ++j){
+			os << b[i][j] << "|";
+		}
+		os << endl;
+	}
+	return os;
+}
+*/
 
 void GameBoard::initBoard(){
 	for(int i=0; i<8; ++i){
@@ -240,6 +253,7 @@ vector<Move> GameBoard::AIAllMoves(){
 
 void GameBoard::AImakeMove(){
 	vector<Move> allMoves = AIAllMoves();
+
 	//Pick a random move for now
 	random_device rd;  //Will be used to obtain a seed for the random number engine
     mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()

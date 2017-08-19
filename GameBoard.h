@@ -41,6 +41,9 @@ public:
 	//GameBoard(Player p1, AIPlayer p2); // Constructor - human v AI
 	GameBoard(const GameBoard& b); // Copy Constuctor
 
+	//Overloaded operators
+	friend ostream& operator<<(ostream& os, const GameBoard& b);
+
 	//Member functions
 	void printBoard();
 	void initBoard();
